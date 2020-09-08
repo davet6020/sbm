@@ -43,22 +43,37 @@ function status() {
   fi
 }
 
+# Gets the status of all replicas
+function statusall() {
+  tmp=$(mysql -u admin -padmin -h 127.0.0.1 -P6032 -e"select hostname, '|', status from mysql_servers where hostgroup_id < 100")
+  # Clean off hostname and status column headers
+  echo "$tmp" | sed -n '1!p'
+}
+
 # If this isnt called, the on() or off() change does not take affect
 function reload() {
   mysql -u admin -padmin -h 127.0.0.1 -P6032 -e"LOAD MYSQL SERVERS TO RUNTIME;"
   mysql -u admin -padmin -h 127.0.0.1 -P6032 -e"SAVE MYSQL SERVERS TO DISK;"
 }
 
+# To generate output to psadmin
+function all() {
+  tmp=$(mysql -u admin -padmin -h 127.0.0.1 -P6032 -e"select hostgroup_id as 'group', hostname, status from mysql_servers where hostgroup_id < 100")
+  # Clean off hostname and status column headers
+  echo "$tmp"
+}
 
 # Main()
-if [ $# -ge 2 ]; then
+case "$1" in
+  ON) on "$2" "$3"
+    ;;
+  OFF) off "$2" "$3"
+    ;;
+  STATUS) status "$2"
+    ;;
+  STATUSALL) statusall
+    ;;
+  ALL) all
+    ;;
+esac
 
-  if [[ "$1" = "ON" ]]; then
-    on "$2" "$3"
-  elif [[ "$1" = "OFF" ]]; then
-    off "$2" "$3"
-  elif [[ "$1" = "STATUS" ]]; then
-    status "$2"
-  fi
-
-fi
