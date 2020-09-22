@@ -7,13 +7,15 @@
 	$user = trim(quotemeta($login[0]));
 	$pass = trim(quotemeta($login[1]));
 
-	$clst = array('vdb1', 'vdb2', 'vdb3_grp0', 'vdb3_grp1', 'vdb3_grp2', 'vdb4');
+	$clst = array('vdb1', 'vdb2', 'vdb3', 'vdb3DV', 'vdb4');
 	$vdb1 = array('10.0.1.138', '10.0.2.187');
 	$vdb2 = array('10.0.1.194', '10.0.2.179');
-	$vdb3_grp0 = array('10.0.1.171', '10.0.2.95', '10.0.2.233', '10.0.2.247');
-	$vdb3_grp1 = array('10.0.1.24', '10.0.1.91', '10.0.2.44', '10.0.2.207');
+	$vdb3 = array('10.0.1.125', '10.0.1.151', '10.0.2.86', '10.0.2.139', '10.0.2.148');
+	$vdb3DV = array('10.0.1.77', '10.0.2.225');
+	// $vdb3_grp0 = array('10.0.1.171', '10.0.2.95', '10.0.2.233', '10.0.2.247');
+	// $vdb3_grp1 = array('10.0.1.24', '10.0.1.91', '10.0.2.44', '10.0.2.207');
 	$vdb3_grp2 = array('10.0.1.62', '10.0.1.77', '10.0.1.125', '10.0.1.141', '10.0.1.151');
-
+	$vdb3_grp3 = array('10.0.2.86', '10.0.2.120', '10.0.2.139', '10.0.2.148', '10.0.2.225');
 	$vdb4 = array('10.0.1.61', '10.0.2.253');
 
 
@@ -22,16 +24,36 @@
 
 		foreach($$cl as $v) {
 			$status = call_agent("STATUS", $v);
+
+			// To make screen formatting nicer
+			if($status == 'OFFLINE_SOFT') {
+				$status = 'OFFSOFT';
+			}
+			if($status == 'OFFLINE_HARD') {
+				$status = 'OFFHARD';
+			}
+
 			$secs = get_secs($v, $user, $pass);
 			echo "$v\t$status\t$secs\n";
 		}
 		echo "\n";
 	}
 
-	function head($cl) {
+	function title() {
 		$dte = date("Y-m-d h:i:sa");
-		echo "$cl - $dte\n";
-		echo "---------------------------------\n";
+		echo "IP\t\tStatus\tSBM\n";
+	}
+
+	function head($cl) {
+		echo "$cl:\n";
+		echo "IP________\tStatus\tSBM\n";
+		// echo "----------\t------\t---\n";
+	}
+
+	function head2($cl) {
+		$mod = strlen($cl) % 2;
+		$x = (26 - strlen($cl)) / 2;
+		echo str_repeat('-', $x) . " $cl " . str_repeat('-', $x) . "\n";
 	}
 
 	function call_agent($option, $ip) {
