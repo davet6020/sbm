@@ -18,6 +18,13 @@
   }
 
   switch(strtoupper($argv[1])) {
+    case 'ADD':
+      echo "add some new stuff to proxysql\n\n";
+      break;
+    case 'HARD':
+      $status = call_agent('HARD', $argv[2], $argv[3]);
+      echo "$argv[2] is $status\n";
+      break;
     case 'OFF':
       $status = call_agent('OFF', $argv[2], $argv[3]);
       echo "$argv[2] is $status\n";
@@ -25,9 +32,6 @@
     case 'ON':
       $status = call_agent('ON', $argv[2], $argv[3]);
       echo "$argv[2] is $status\n";
-      break;
-    case 'ADD':
-      echo "add some new stuff to proxysql\n\n";
       break;
     default:
       // Maybe later return a status but not today.
@@ -57,3 +61,4 @@
   }
 
 ?>
+

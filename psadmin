@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ $# -lt 3 ]; then
+  php /usr/local/bin/psadmin.php "$1"
+else
+  php /usr/local/bin/psadmin.php "$1" "$2" "$3"
+fi
+
