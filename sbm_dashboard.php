@@ -39,6 +39,8 @@
 		echo "\n";
 	}
 
+	echo date("D M j G:i:s T Y") . "\n";
+
 	function title() {
 		$dte = date("Y-m-d h:i:sa");
 		echo "IP\t\tStatus\tSBM\n";
