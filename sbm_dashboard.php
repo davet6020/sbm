@@ -7,7 +7,8 @@
 	$user = trim(quotemeta($login[0]));
 	$pass = trim(quotemeta($login[1]));
 
-	$clst = array('vdb1', 'vdb2', 'vdb3', 'vdb3DV', 'vdb4');
+	$clst = array('sgdb', 'vdb1', 'vdb2', 'vdb3', 'vdb4');
+	$sgdb = array('10.0.1.120');
 	$vdb1 = array('10.0.1.138', '10.0.2.187');
 	$vdb2 = array('10.0.1.194', '10.0.2.179');
 	$vdb3 = array('10.0.1.125', '10.0.1.151', '10.0.2.86', '10.0.2.139', '10.0.2.148');
